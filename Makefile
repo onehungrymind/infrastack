@@ -10,13 +10,16 @@ install-node-modules: ## Install dependencies locally
 	@(cd client && yarn)
 
 create-postgres-db: ## Create Postgres Database and Table in Docker
-	@(cd server && sh postgres.sh)
+	@(cd server && ./postgres.sh)
 
 start-local-client: ## Start Go Client application. http://localhost:4200/users
 	@(cd client && yarn start)
 
-start-local-server: ## Start Go Server application. http://localhost:8080/api/v1/users
-	@(cd server && go run main.go)
+start-local-server: build-local ## Start Go Server application. http://localhost:8080/api/v1/users
+	@(cd server && ./main)
+
+build-local: ## Builds a local executable of the project via "go build"
+	@(cd server && go build -o main)
 
 clean: remove-container remove-image ## Remove both docker container and image.
 

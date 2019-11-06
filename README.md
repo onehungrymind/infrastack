@@ -17,12 +17,36 @@ Once all prerequisites are installed, run `make init` to download other necessar
 If the AWS CLI has never been installed on your machine before,
 make sure to [configure](https://docs.aws.amazon.com/eks/latest/userguide/getting-started-eksctl.html#configure-awscli) it.
 
+## Local Development
+
+For local development, run the following `make` commands
+
+```sh
+# Run this fist and/or only to create a postgres database in Docker
+make create-postgres-db # (required for server to run)
+
+# Run this to start the server, only after database is available.
+make start-local-server
+
+# Run this to start the client, only after the server is available.
+make start-local-client
+```
+
+> Note: make install-node-modules only needs to be run once initially, and then it only needs to be run if client/package.json changes.
+
+The frontend is available on http://localhost:4200/users and the backend is available on http://localhost:8080/api/v1/users.
+
+## Troubleshooting
+
+If for some reason you are running into any issues, try running `make clean` to clear your container and images and restarting Local Developement process.
+
 ## Available Make Commands
 
 Below are all the available Make targets (copied from running `make help`).
 
 ```makefile
 Available targets:
+build-local                    Builds a local executable of the project via "go build"
 clean                          Remove both docker container and image.
 create-postgres-db             Create Postgres Database and Table in Docker
 help                           Help documentation
