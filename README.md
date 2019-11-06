@@ -26,6 +26,7 @@ Available targets:
 clean                          Remove both docker container and image.
 create-postgres-db             Create Postgres Database and Table in Docker
 help                           Help documentation
+init                           Install required tools for local environment on macOS
 remove-container               Stop and Remove created container named infrastack-postgres
 remove-image                   Remove pulled image postgres:alpine
 start-local-server             Start Go Server application. http://localhost:8080/api/v1/users

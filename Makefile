@@ -2,6 +2,10 @@ help: ## Help documentation
 	@echo "Available targets:"
 	@grep -E '^[a-zA-Z_0-9-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+init: ## Install required tools for local environment on macOS
+	brew install awscli || exit 0
+	brew tap weaveworks/tap && brew install weaveworks/tap/eksctl || exit 0
+
 create-postgres-db: ## Create Postgres Database and Table in Docker
 	@(cd server && sh postgres.sh)
 
