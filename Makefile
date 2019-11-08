@@ -29,3 +29,20 @@ remove-container: ## Stop and Remove created container named infrastack-postgres
 
 remove-image: ## Remove pulled image postgres:alpine
 	docker rmi postgres:alpine
+
+local-k8s-context: ## Ensures that the K8s context is set to Docker for Desktop
+	@(kubectl config use-context docker-desktop)
+
+deploy-namespace: ## Creates a Kubernetes workspace
+	@(kubectl apply -f ./kubernetes/namespace.yaml && kubectl config set-context --current --namespace=venturplex-devops-example)
+
+deploy-data: ## Creates the k8s database deployment and service
+	@(kubectl apply -f ./kubernetes/data.yaml)
+
+deploy-dev-server: ## Creates the k8s dev server deployment and service
+	@(kubectl apply -f ./kubernetes/server.yaml)
+
+deploy-dev-client: ## Creates the k8s dev cient deployment and service
+	@(kubectl apply -f ./kubernetes/client.yaml)
+
+deploy-dev: local-k8s-context deploy-namespace deploy-data deploy-dev-server deploy-dev-client  ## Creates development-specific deployments and services
