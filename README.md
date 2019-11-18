@@ -22,7 +22,7 @@ make sure to [configure](https://docs.aws.amazon.com/eks/latest/userguide/gettin
 For local development, run the following `make` commands
 
 ```sh
-# Run this fist and/or only to create a postgres database in Docker
+# Run this first and/or only to create a postgres database in Docker
 make create-postgres-db # (required for server to run)
 
 # Run this to start the server, only after database is available.
