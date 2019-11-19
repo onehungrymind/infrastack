@@ -1,28 +1,45 @@
+# Build the base image from the source code using the latest version of golang
+FROM golang:latest as builder
 
-# Start from the latest golang base image and alias for later
-ARG GOLANG_VERSION=latest
+# Specify metadata for Docker objects such as Images, Containers, Volumes etc
+LABEL maintainer="VenturPlex <kenneth.slachta@venturplex.com>"
 
-# Build the base image from the source code golang:latest
-FROM golang:$GOLANG_VERSION as builder
-
-# Set the Current Working Directory inside the container
+# Defines the working directory of a Docker container at any given time
 WORKDIR /app/
 
-# Copy go mod and sum files to './' or '/app/'
+# Adds files from your Docker server’s current directory
 COPY go.mod go.sum ./
 
-# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changes
+# Build your application
 RUN go mod download
 
-# Copy the source from the current directory to the Working Directory inside the container
+# Adds files from your Docker server’s current directory
 COPY . .
 
-# Builds your application with 'make'
-RUN ["go", "get", "github.com/go-playground/justdoit"]
+# Build the binary
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
-# Special package
-ENTRYPOINT justdoit -watch="./" -include="(.+\\.go|.+\\.c)$" -build="go build -o main ." -run="./main"
+# Important step in building a minimal image
+FROM scratch
 
-# Build image - 'docker build . -t go-server'
-# List Docker images 'docker ls -a'
-# Run - 'docker run go-server:latest'
+# Where to build it
+WORKDIR /root/
+
+# What files to copy and to where
+COPY --from=builder /app/main .
+
+# Informs Docker that the container listens on port 8080 at runtime (does not make the ports of the container accessible to the host)
+EXPOSE 8080
+
+# Sets default command and/or parameters, which can be overwritten from command line when docker container runs
+CMD ["./main"]
+
+# 'make create-postgres-db' - start postgres
+
+# 'docker build -t go-server:latest .' - build image in the current server
+
+# 'docker image ls -a' - list Docker images
+
+# 'docker run -it -p 8080:8080 go-server:latest' - (The -it flag tells docker that it should open an interactive container instance)
+
+# 'docker rm -vf $(docker ps -a -q)' stop all running containers
