@@ -6,7 +6,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: server
+    app: server # Label selector to communicate with Pods of the same name.
   ports:
     - protocol: TCP
       targetPort: api
@@ -18,13 +18,20 @@ metadata:
   name: server
   namespace: infrastack
 spec:
-  replicas: 1
+  replicas: 3 # Number of replicas in the ReplicaSet.
   selector:
     matchLabels:
+    # This tells the Deployment to select Pods with this label.
       app: server
+  minReadSeconds: 5 # Wait a minimum of 5 seconds afer each update, this gives the Pods a change to update and complete some health checks before moving onto the next replica.
+  strategy:
+    rollingUpdate:
+      maxSurge: 1 # Allow one replica above the desired replicas during an update.
+      maxUnvailable: 0 # Never go below this number of replicas.
   template:
     metadata:
       labels:
+      # This label is attached to all Pods started by this deployment.
         app: server
         version: v1
     spec:

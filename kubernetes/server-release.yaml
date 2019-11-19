@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: server-release
-          image: infrastack/server-release:latest
+          image: venturplex/server-release:latest
           ports:
             - name: api
               containerPort: 8080

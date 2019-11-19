@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: client-release
-          image: infrastack/client-release:latest
+          image: venturplex/client-release:latest
           ports:
             - name: frontend
               containerPort: 80
