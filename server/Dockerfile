@@ -34,11 +34,7 @@ EXPOSE 8080
 # Sets default command and/or parameters, which can be overwritten from command line when docker container runs
 CMD ["./main"]
 
-# 'make create-postgres-db' - start postgres
-
 # 'docker build -t go-server:latest .' - build image in the current server
-
-# 'docker image ls -a' - list Docker images
 
 # 'docker run -it -p 8080:8080 go-server:latest' - (The -it flag tells docker that it should open an interactive container instance)
 

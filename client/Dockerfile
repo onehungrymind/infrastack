@@ -18,8 +18,6 @@ CMD ["yarn", "start"]
 
 # 'docker build -t client .' - build image in the current server
 
-# 'docker image ls -a' - list Docker images
-
 # 'docker run -it -p 4200:4200 client' - (The -it flag tells docker that it should open an interactive container instance)
 
 # 'docker rm -vf $(docker ps -a -q)' stop all running containers

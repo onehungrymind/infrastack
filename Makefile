@@ -19,9 +19,6 @@ start-clean: docker-clean start ## Clean the docker containers then start
 install-node-modules: ## Install dependencies locally
 	@(cd client && yarn)
 
-create-postgres-db: ## Create Postgres Database and Table in Docker
-	@(cd server && ./postgres.sh)
-
 start-local-client: ## Start Go Client application. http://localhost:4200/users
 	@(cd client && yarn start)
 
